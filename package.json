@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "@apollo/client": "3.3.6",
+    "@emotion/react": "^11.5.0",
+    "@emotion/styled": "^11.3.0",
     "@mui/icons-material": "^5.0.5",
     "@mui/material": "^5.0.6",
     "@testing-library/jest-dom": "^5.11.4",
@@ -45,7 +47,5 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {
-    "@emotion/babel-plugin": "^11.3.0"
-  }
+  "devDependencies": {}
 }
