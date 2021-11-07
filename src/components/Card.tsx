@@ -65,11 +65,6 @@ export default function MissionCard({
     rocket,
   },
 }: IProps) {
-  console.log(
-    "🚀 ~ file: Card.tsx ~ line 68 ~ rocket",
-    rocket.rocket.first_stage.fuel_amount_tons
-  );
-  console.log("🚀 ~ file: Card.tsx ~ line 68 ~ rocket", rocket.rocket.mass.kg);
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
@@ -79,6 +74,7 @@ export default function MissionCard({
   const totalMass =
     rocket?.rocket?.mass?.kg + rocket?.rocket?.first_stage?.fuel_amount_tons;
 
+  // Energy Consumption In MJ
   const consumption = 1 * 15 * totalMass * 1.35 * 10;
 
   return (

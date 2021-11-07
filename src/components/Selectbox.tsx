@@ -43,6 +43,7 @@ export default function Selectbox() {
 
           const results = await Promise.allSettled(promises);
 
+          // eslint-disable-next-line array-callback-return
           const launches = results.map((l) => {
             if (l.status === "fulfilled") {
               return l.value.data.launch;

@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLaunches } from "./../ThemeContext";
-
-import { useQuery, gql } from "@apollo/client";
-
+import { useQuery } from "@apollo/client";
 import MissionCard from "../components/Card";
-
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
