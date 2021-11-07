@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { useLaunches } from "./../ThemeContext";
+
 import { useQuery, gql } from "@apollo/client";
 
 import MissionCard from "../components/Card";
@@ -9,7 +11,7 @@ import Grid from "@mui/material/Grid";
 import { LAUNCHES_QUERY } from "../graphQL/queries";
 
 export const CardListStyled = styled(Box)`
-  background-color: #f8f5f5;
+  background-color: #ffffff;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -24,6 +26,17 @@ interface IState {
     launch_date_local: string;
     launch_success: boolean;
     details: string;
+    rocket: {
+      rocket: {
+        mass: {
+          kg: number;
+        };
+        first_stage: {
+          fuel_amount_tons: number;
+        };
+      };
+      rocket_name: string;
+    };
     links: {
       article_link: string;
       flickr_images: string[];
@@ -32,6 +45,8 @@ interface IState {
 }
 
 const CardList = () => {
+  const selectedLaunches: any = useLaunches();
+
   const { data, loading } = useQuery(LAUNCHES_QUERY, {
     variables: { limit: 10 },
   });
@@ -39,10 +54,12 @@ const CardList = () => {
   const [launches, setLaunches] = useState<IState["launches"]>([]);
 
   useEffect(() => {
-    if (data?.launches.length && !loading) {
+    if (selectedLaunches.length) {
+      setLaunches(selectedLaunches);
+    } else if (data?.launches.length && !loading) {
       setLaunches(data.launches);
     }
-  }, [data, loading]);
+  }, [data, loading, selectedLaunches]);
 
   if (loading) return <h3>Loading...</h3>;
   return (

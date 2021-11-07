@@ -9,8 +9,10 @@ import Collapse from "@mui/material/Collapse";
 import Avatar from "@mui/material/Avatar";
 import IconButton, { IconButtonProps } from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
+import Chip from "@mui/material/Chip";
 import { red, green } from "@mui/material/colors";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ElectricalServicesIcon from "@mui/icons-material/ElectricalServices";
 import SpaceXEmpty from "./../assets/spacex_empty.jpg";
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -34,6 +36,17 @@ interface IProps {
     launch_date_local: string;
     launch_success: boolean;
     details: string;
+    rocket: {
+      rocket: {
+        mass: {
+          kg: number;
+        };
+        first_stage: {
+          fuel_amount_tons: number;
+        };
+      };
+      rocket_name: "Falcon 9";
+    };
     links: {
       article_link: string;
       flickr_images: string[];
@@ -49,13 +62,24 @@ export default function MissionCard({
     launch_success,
     details,
     links,
+    rocket,
   },
 }: IProps) {
+  console.log(
+    "🚀 ~ file: Card.tsx ~ line 68 ~ rocket",
+    rocket.rocket.first_stage.fuel_amount_tons
+  );
+  console.log("🚀 ~ file: Card.tsx ~ line 68 ~ rocket", rocket.rocket.mass.kg);
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+
+  const totalMass =
+    rocket?.rocket?.mass?.kg + rocket?.rocket?.first_stage?.fuel_amount_tons;
+
+  const consumption = 1 * 15 * totalMass * 1.35 * 10;
 
   return (
     <Card sx={{ maxWidth: 345 }}>
@@ -85,6 +109,11 @@ export default function MissionCard({
               {launch_success ? "Succeed" : "Failed"}
             </Avatar>
           }
+        />
+        <Chip
+          color="secondary"
+          icon={<ElectricalServicesIcon />}
+          label={`EC ${(consumption / 1000).toFixed(2)}GJ`}
         />
 
         <ExpandMore

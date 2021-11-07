@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useLaunchesUpdate } from "./../ThemeContext";
 import { useQuery, gql, useApolloClient } from "@apollo/client";
 import Checkbox from "@mui/material/Checkbox";
 import TextField from "@mui/material/TextField";
@@ -21,16 +22,19 @@ interface IState {
 
 export default function Selectbox() {
   const client = useApolloClient();
-  const { error, loading, data } = useQuery(GET_MISSION_NAMES);
+  const updateLaunches = useLaunchesUpdate();
+  const { data } = useQuery(GET_MISSION_NAMES);
 
   const [missions, setMissions] = useState<IState["missions"]>([]);
-  const [selected, setSelected] = useState<IState["missions"]>([]);
+  const [selectedMissions, setSelectedMissions] = useState<IState["missions"]>(
+    []
+  );
 
   useEffect(() => {
-    if (selected.length) {
+    if (selectedMissions.length) {
       const fetchData = async () => {
         try {
-          const promises = selected.map(async (item) => {
+          const promises = selectedMissions.map(async (item) => {
             return await client.query({
               query: QUERY_LAUNCH_PROFILE,
               variables: { id: Number(item.id) },
@@ -44,14 +48,17 @@ export default function Selectbox() {
               return l.value.data.launch;
             }
           });
+          updateLaunches(launches);
         } catch (e) {
           console.error(e);
         }
       };
       fetchData();
+    } else {
+      updateLaunches([]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selected]);
+  }, [selectedMissions]);
 
   useEffect(() => {
     if (data) {
@@ -98,9 +105,9 @@ export default function Selectbox() {
       renderInput={(params) => (
         <TextField {...params} color="secondary" placeholder="Search" />
       )}
-      value={selected}
+      value={selectedMissions}
       onChange={(event, newValue) => {
-        setSelected(newValue);
+        setSelectedMissions(newValue);
       }}
     />
   );

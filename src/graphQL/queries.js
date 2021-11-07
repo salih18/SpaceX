@@ -17,6 +17,17 @@ export const LAUNCHES_QUERY = gql`
       launch_date_local
       launch_success
       details
+      rocket {
+        rocket {
+          mass {
+            kg
+          }
+          first_stage {
+            fuel_amount_tons
+          }
+        }
+        rocket_name
+      }
       links {
         article_link
         flickr_images
@@ -33,6 +44,17 @@ export const QUERY_LAUNCH_PROFILE = gql`
       launch_date_local
       launch_success
       details
+      rocket {
+        rocket {
+          mass {
+            kg
+          }
+          first_stage {
+            fuel_amount_tons
+          }
+        }
+        rocket_name
+      }
       links {
         article_link
         flickr_images

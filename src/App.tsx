@@ -1,6 +1,8 @@
 import React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 
+import { ThemeProvider } from "./ThemeContext";
+
 import Home from "./pages/Home";
 
 import {
@@ -36,12 +38,12 @@ const client = new ApolloClient({
 
 const App = () => {
   return (
-    <>
+    <ThemeProvider>
       <CssBaseline />
       <ApolloProvider client={client}>
         <Home />
       </ApolloProvider>
-    </>
+    </ThemeProvider>
   );
 };
 
