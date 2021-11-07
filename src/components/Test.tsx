@@ -1,13 +1,21 @@
 import React from "react";
-import Button from "@material-ui/core/Button";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+
 import { TestStyled } from "./Test.styles";
 
 const Test = () => {
   return (
     <TestStyled>
-      <Button variant="contained" color="primary">
-        Hello World
-      </Button>
+      <Stack direction="row" spacing={2}>
+        <Button color="secondary">Secondary</Button>
+        <Button variant="contained" color="success">
+          Success
+        </Button>
+        <Button variant="outlined" color="error">
+          Error
+        </Button>
+      </Stack>
     </TestStyled>
   );
 };

@@ -1,6 +1,7 @@
 import React from "react";
-import Test from "./components/Test";
-import CssBaseline from "@material-ui/core/CssBaseline";
+import CssBaseline from "@mui/material/CssBaseline";
+
+import Home from "./pages/Home";
 
 import {
   ApolloClient,
@@ -23,7 +24,10 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (networkError) console.log(`[Network error]: ${networkError}`);
 });
 
-const link = from([errorLink, new HttpLink({ uri: "http://someurl" })]);
+const link = from([
+  errorLink,
+  new HttpLink({ uri: "https://api.spacex.land/graphql/" }),
+]);
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
@@ -35,7 +39,7 @@ const App = () => {
     <>
       <CssBaseline />
       <ApolloProvider client={client}>
-        <Test></Test>
+        <Home />
       </ApolloProvider>
     </>
   );
