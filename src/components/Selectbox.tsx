@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useQuery, gql } from "@apollo/client";
+import { useQuery, gql, useApolloClient } from "@apollo/client";
 import Checkbox from "@mui/material/Checkbox";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 
-import { GET_MISSION_NAMES} from "../graphQL/queries";
+import { GET_MISSION_NAMES, QUERY_LAUNCH_PROFILE } from "../graphQL/queries";
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -20,10 +20,38 @@ interface IState {
 }
 
 export default function Selectbox() {
+  const client = useApolloClient();
   const { error, loading, data } = useQuery(GET_MISSION_NAMES);
 
   const [missions, setMissions] = useState<IState["missions"]>([]);
   const [selected, setSelected] = useState<IState["missions"]>([]);
+
+  useEffect(() => {
+    if (selected.length) {
+      const fetchData = async () => {
+        try {
+          const promises = selected.map(async (item) => {
+            return await client.query({
+              query: QUERY_LAUNCH_PROFILE,
+              variables: { id: Number(item.id) },
+            });
+          });
+
+          const results = await Promise.allSettled(promises);
+
+          const launches = results.map((l) => {
+            if (l.status === "fulfilled") {
+              return l.value.data.launch;
+            }
+          });
+        } catch (e) {
+          console.error(e);
+        }
+      };
+      fetchData();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selected]);
 
   useEffect(() => {
     if (data) {

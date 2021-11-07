@@ -1,5 +1,4 @@
 import * as React from "react";
-import { useQuery, gql } from "@apollo/client";
 import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -8,7 +7,8 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import MenuIcon from "@mui/icons-material/Menu";
 import Selectbox from "../components/Selectbox";
-import { LAUNCHES_QUERY } from "../graphQL/queries";
+import Container from "@mui/material/Container";
+import SpaceXLogo from "./../assets/SpaceX-Logo.svg";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -35,14 +35,14 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   },
 }));
 
+const StyledLogo = styled("div")(({ theme }) => ({
+  height: "60px",
+  paddingTop: theme.spacing(0),
+  paddingBottom: theme.spacing(0),
+  display: "flex",
+}));
+
 export default function SearchAppBar() {
-  const { data: launches } = useQuery(LAUNCHES_QUERY, {
-    variables: { limit: 3 },
-  });
-  console.log(
-    "🚀 ~ file: Selectbox.tsx ~ line 25 ~ Selectbox ~ launches",
-    launches
-  );
   return (
     <Box
       sx={{
@@ -50,28 +50,21 @@ export default function SearchAppBar() {
       }}
     >
       <AppBar position="static" color="secondary">
-        <StyledToolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
-          >
-            SpaceX
-          </Typography>
-          <Search color="secondary">
-            <Selectbox />
-          </Search>
-        </StyledToolbar>
+        <Container>
+          <StyledToolbar>
+            <Box
+              component="div"
+              sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+            >
+              <StyledLogo>
+                <img src={SpaceXLogo} style={{ width: 320 }} alt="logo" />
+              </StyledLogo>
+            </Box>
+            <Search color="secondary">
+              <Selectbox />
+            </Search>
+          </StyledToolbar>
+        </Container>
       </AppBar>
     </Box>
   );
