@@ -1,0 +1,12 @@
+version: "3.6"
+
+services:
+  client:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: spacex    
+    volumes:
+      - ./src:/app/src
+    ports:
+      - "3001:3000"
