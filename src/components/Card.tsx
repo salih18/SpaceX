@@ -45,7 +45,7 @@ interface IProps {
           fuel_amount_tons: number;
         };
       };
-      rocket_name: "Falcon 9";
+      rocket_name: string;
     };
     links: {
       article_link: string;
