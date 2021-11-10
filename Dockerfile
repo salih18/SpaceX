@@ -13,6 +13,8 @@ COPY package-lock.json ./
 RUN npm install --silent
 RUN npm install react-scripts@3.4.1 -g --silent
 
+ARG REACT_APP_API_URL
+ENV REACT_APP_API_URL http://localhost:3000
 
 # add app
 COPY . ./

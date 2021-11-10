@@ -7,6 +7,10 @@ COPY package.json ./
 COPY package-lock.json ./
 RUN npm ci --silent
 RUN npm install react-scripts@3.4.1 -g --silent
+
+ARG REACT_APP_API_URL
+ENV REACT_APP_API_URL https://k4aqyh0oxk.execute-api.us-east-1.amazonaws.com/
+
 COPY . ./
 RUN npm run build
 

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { useLaunchesUpdate } from "./../ThemeContext";
 import { useQuery, gql, useApolloClient } from "@apollo/client";
 import Checkbox from "@mui/material/Checkbox";
@@ -50,6 +51,16 @@ export default function Selectbox() {
             }
           });
           updateLaunches(launches);
+
+          // Request to Serverless Api
+          const API_URL: string = process.env.REACT_APP_API_URL!;
+          const { data } = await axios.post(API_URL, {
+            ids: selectedMissions.map((mission: any) => mission.id),
+          });
+          console.log(
+            "🚀 ~ file: Selectbox.tsx ~ line 60 ~ fetchData ~ data",
+            data
+          );
         } catch (e) {
           console.error(e);
         }
